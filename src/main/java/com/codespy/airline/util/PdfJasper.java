@@ -27,25 +27,28 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
-public class PdfJasper {
-
-	public void exportReport(TicketBooking ticket, CreditCard credit, FlightDetails flight, Seat seat, Search search, Airport sourceAirport, Airport destinationAirport) {
+public class PdfJasper 
+{
+	public void exportReport(TicketBooking ticket, CreditCard credit, FlightDetails flight, Seat seat, Search search,
+			Airport sourceAirport, Airport destinationAirport) 
+	{
 		int listOfPassengar = search.getPassenger();
-		//Enter path, where you want to store your PDF file
-		//Example :- D:\\pdfrepo
+		// Enter path, where you want to store your PDF file
+		// Example :- D:\\pdfrepo
 		String path = "G:\\pdfrepo";
-		//Enter path of the image to show in the pdf
+		// Enter path of the image to show in the pdf
 		// Example :- C:\\Users\\xxx\\xx\\xx\\xx\\xx\\xx\\xx\\xx\\xx\\
-		String imagePath = "G:\\images\\"
-				+ flight.getImageName();
+		String imagePath = "G:\\images\\" + flight.getImageName();
 		List<TravelCustomer> travelCustomer = ticket.getTravelCustomer();
 		List<TravelCustomer> tempCustomer = new ArrayList<TravelCustomer>();
 		tempCustomer.add(new TravelCustomer());
-		for (int i = 0; i < travelCustomer.size(); i++) {
+		for (int i = 0; i < travelCustomer.size(); i++) 
+		{
 			tempCustomer.add(travelCustomer.get(i));
 		}
 		// load file and compile it
-		try {
+		try 
+		{
 			File file = ResourceUtils.getFile("classpath:jasperPdf.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(tempCustomer);
@@ -72,22 +75,22 @@ public class PdfJasper {
 			parameters.put("cardNumber", credit.getCardnumber());
 			parameters.put("cvv", credit.getCvv());
 			parameters.put("expiryandvalidity", credit.getExpiryMonth() + "/" + credit.getExpiryYear());
-			parameters.put("websiteName", "codeSpy.org");
-			parameters.put("websiteEmail", "codewithspidy@gmail.com");
-			parameters.put("customerCare", "+9199999999");
+			parameters.put("websiteName", "google.com");
+			parameters.put("websiteEmail", "jmkairline.service@gmail.com");
+			parameters.put("customerCare", "+91xxxxxxxxxxx");
 			parameters.put("socialLink", "youtube,telegram");
 			parameters.put("bookingId", ticket.getBookingId());
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\" + flight.getFlightName() +ticket.getBookingId() + ".pdf");
-		} catch (FileNotFoundException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		} catch (JRException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-
+			JasperExportManager.exportReportToPdfFile(jasperPrint,
+					path + "\\" + flight.getFlightName() + ticket.getBookingId() + ".pdf");
+		} 
+		catch (FileNotFoundException e3) 
+		{
+			System.out.println(e3.getMessage());
+		} 
+		catch (JRException e2) 
+		{
+			System.out.println(e2.getMessage());
 		}
-
 	}
-
 }

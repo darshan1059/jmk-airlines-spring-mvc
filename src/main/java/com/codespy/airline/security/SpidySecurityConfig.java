@@ -12,17 +12,18 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.codespy.airline.services.CustomOAuth2UserService;
 import com.codespy.airline.services.CustomerUserDetails;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SpidySecurityConfig extends WebSecurityConfigurerAdapter 
-{
+public class SpidySecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
 	private CustomerUserDetails userDetails;
 
@@ -50,22 +51,19 @@ public class SpidySecurityConfig extends WebSecurityConfigurerAdapter
 	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
 
 	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception 
-	{
+	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
 
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception 
-	{
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception 
-	{
+	protected void configure(HttpSecurity http) throws Exception {
+
 		http.csrf().disable().authorizeRequests()
-		//cross-site req forgery(csrf) 
 				.antMatchers("/", "/images/**", "/css/**", "/js/**", "/webjars/**", "/login", "/signup", "/verify",
 						"/oauth2/**", "/oauth2/authorization/google", "/403", "/about", "/contact", "**.css", "**.jpg",
 						"**.png", "**.js", "/moredetails", "/payment", "/privacypolicy")
@@ -97,15 +95,12 @@ public class SpidySecurityConfig extends WebSecurityConfigurerAdapter
 	 */
 
 	@Bean
-	public PasswordEncoder passwordEncoder() 
-	{
-		//change 1
-		return new BCryptPasswordEncoder();
+	public PasswordEncoder passwordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
 	}
 
 	@Bean
-	public DaoAuthenticationProvider authenticationProvider() 
-	{
+	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(userDetails);
 		authProvider.setPasswordEncoder(passwordEncoder());
@@ -113,8 +108,8 @@ public class SpidySecurityConfig extends WebSecurityConfigurerAdapter
 	}
 
 	@Bean
-	public BeforeAuthenticationFilter beforeAuthentication() 
-	{
+	public BeforeAuthenticationFilter beforeAuthentication() {
 		return new BeforeAuthenticationFilter();
 	}
+
 }

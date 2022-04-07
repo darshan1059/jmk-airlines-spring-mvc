@@ -5,7 +5,7 @@
 	<div class="body-spidy-container">
 		<%@ include file="jspf/navigation/navigation.jspf"%>
 		<div class="page-design">
-			<div class="login-page-design" id="login">
+			<div class="login-page-design" id="processLogin">
 				<form action="/processLogin" method="post">
 					<c:if test="${param.verifyemail}">
 						<div id="error">

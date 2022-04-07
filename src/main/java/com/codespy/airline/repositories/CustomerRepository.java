@@ -11,8 +11,11 @@ import org.springframework.stereotype.Repository;
 import com.codespy.airline.models.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+public interface CustomerRepository extends JpaRepository<Customer, Integer> 
+{
 	public Customer findByUsername(String username);
+	
+	public Customer findByUsernameAndPassword(String username, String password);
 	
 	@Modifying(clearAutomatically = true)
 	@Query("update Customer u set u.enabled = :enabled where u.customerid =:customerid")
