@@ -60,11 +60,6 @@ import com.app.util.PdfJasper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-/**
- * 
- * @author CodeSpy
- *
- */
 @Controller
 @SessionAttributes({ "flightDetails", "search", "user", "customer", "role", "userObj", "userEmail" })
 public class PublicUserController {
