@@ -33,5 +33,7 @@ public interface CustomerService {
 	public Customer getCustomerByUsername(String username);
 
 	public void updateCustomer(Customer customer);
+	
+	public Customer authenticateUser(String username, String password);
 
 }

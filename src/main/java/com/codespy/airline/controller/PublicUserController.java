@@ -155,6 +155,23 @@ public class PublicUserController {
 	public String customerLogin(HttpServletRequest request, Model model) {
 		return "login";
 	}
+	
+//	@PostMapping("/processLogin")
+//	public String processLogin(@RequestParam("username") String username, 
+//			@RequestParam("password") String password, Model map, HttpSession session) 
+//	{
+//		System.out.println("in process login form "+username+" "+password+" "+map);
+//		//handler invokes service layer method for exec B.L
+//		if(username.equals("admin") && password.equals("password"))
+//			return "redirect:/jspf/navigation/navigation.jspf";
+//		Customer customer = customerService.authenticateUser(username, password);
+//		System.out.println(customer);
+//		//=> valid login , store authenticated user details : in request scope (i.e model attribute)
+//		session.setAttribute("userObj", customer);//store it under session scope (till logout)
+//		session.setAttribute("userEmail", customer.getEmailid());
+//		return "userinfo";//AVN : /WEB-INF/views/customer/topics.jsp
+//		//SC invokes : response.sendRedirect(response.encodeRedirectURL("/customer/topics"))	
+//	}
 
 	@GetMapping("/userinfo")
 	public String customerInfo(Model model, HttpSession session) {
@@ -168,7 +185,6 @@ public class PublicUserController {
 		} else {
 			model.addAttribute("ticketBookingHistory", null);
 		}
-
 		return "UserInfo";
 	}
 
